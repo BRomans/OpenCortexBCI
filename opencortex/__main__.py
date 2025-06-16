@@ -1,3 +1,5 @@
+import os
+os.environ['MNE_LAZY_LOADING'] = 'false'
 from opencortex.application import run
 
 

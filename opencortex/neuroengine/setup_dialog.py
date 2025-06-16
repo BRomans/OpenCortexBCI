@@ -11,7 +11,6 @@ import re
 import bluetooth
 import logging
 from brainflow import BoardIds
-import os
 
 log_labels = {0: 'NOTSET', 1: 'DEBUG', 2: 'INFO', 3: 'WARNING', 4: 'ERROR', 5: 'CRITICAL'}
 
@@ -63,7 +62,7 @@ def retrieve_board_id(device_name):
 
 
 class SetupDialog(QtWidgets.QDialog):
-    def __init__(self, devices, parent=None):
+    def __init__(self, devices, config_files, parent=None):
         super(SetupDialog, self).__init__(parent)
 
         self.setWindowTitle('Connect EEG')
@@ -79,8 +78,7 @@ class SetupDialog(QtWidgets.QDialog):
 
         # Create a textbox to select configuration file
         self.config_file_list = QtWidgets.QComboBox(self)
-        config_files = os.listdir('config')
-        config_files = [f for f in config_files if f.endswith('.yaml')]
+
         self.config_file_list.addItems(config_files)
         layout.addWidget(QtWidgets.QLabel('Select Configuration'))
         layout.addWidget(self.config_file_list)

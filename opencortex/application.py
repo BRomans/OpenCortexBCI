@@ -1,10 +1,10 @@
 import os
 import argparse
 import logging
+import yaml
 from sys import platform
 from PyQt5 import QtWidgets
 from brainflow.board_shim import BoardShim, BrainFlowInputParams, BoardIds
-
 from opencortex.neuroengine.gui.gui_adapter import GUIAdapter
 from opencortex.neuroengine.setup_dialog import SetupDialog, retrieve_board_id, retrieve_eeg_devices
 from opencortex.neuroengine.streamer_gui import StreamerGUI
@@ -67,8 +67,7 @@ def run_headless():
     args = parser.parse_args()
 
     # Load configuration
-    import yaml
-    config_file = os.path.join(base_dir, args.config_file)
+    config_file = os.path.join(args.config_file)
     if not os.path.exists(config_file):
         logging.warning(f'Config file {config_file} does not exist, using default config')
         config_file = config_path
@@ -173,8 +172,9 @@ def run_gui():
     try:
         devices = retrieve_eeg_devices()
         win = QtWidgets.QApplication([])
-
-        dialog = SetupDialog(devices)
+        config_files = os.listdir(os.path.join(base_dir, 'config'))
+        config_files = [f for f in config_files if f.endswith('.yaml')]
+        dialog = SetupDialog(devices, config_files=config_files)
         window_size = 0
         if dialog.exec_() == QtWidgets.QDialog.Accepted:
             selected_device, window_size, log_level, config_file = dialog.get_data()
