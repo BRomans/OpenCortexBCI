@@ -30,5 +30,17 @@ layouts = {
         "header": ["Sample", "A2", "A1", "C4", "C3", "Time", "Trigger"],
         "eeg_start": 1,
         "eeg_end": 5
+    },
+    BoardIds.MUSE_2016_BOARD.value: {
+        "channels": ["TP9", "AF7", "AF8", "TP10"],
+        "header": ["Sample", "TP9", "AF7", "AF8", "TP10", "Time", "Trigger"],
+        "eeg_start": 1,
+        "eeg_end": 5
+    },
+    BoardIds.MUSE_2_BOARD.value: {
+        "channels": ["TP9", "AF7", "AF8", "TP10"],
+        "header": ["Sample", "TP9", "AF7", "AF8", "TP10", "Time", "Trigger"],
+        "eeg_start": 1,
+        "eeg_end": 5
     }
 }

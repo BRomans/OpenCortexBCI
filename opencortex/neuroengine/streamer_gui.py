@@ -1426,7 +1426,7 @@ class StreamerGUI:
 
     def init_classifier(self):
         """ Initialize the classifier """
-        self.classifier = Classifier(model=self.model, board_id=self.board_id)
+        self.classifier = Classifier(model=self.model, board_id=self.board_id, chs=self.eeg_channels)
 
     def set_train_start(self):
         """" Set the start of the training"""

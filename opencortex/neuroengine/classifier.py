@@ -53,7 +53,7 @@ class Classifier:
     Classifier class to train and evaluate custom models on EEG data
     """
 
-    def __init__(self, model, board_id):
+    def __init__(self, model, board_id, chs=None):
         if model is None:
             raise ValueError("Model cannot be None")
         self.model = models[model]
@@ -61,7 +61,7 @@ class Classifier:
         self.sequence = []
         self.board_id = board_id
         self.fs = BoardShim.get_sampling_rate(self.board_id)
-        self.chs = layouts[self.board_id]["channels"]
+        self.chs = chs
         self.epoch_start = -0.1
         self.epoch_end = 0.7
         self.cv_splits = 10
