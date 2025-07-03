@@ -1,6 +1,6 @@
 import logging
-
 from PyQt5.QtCore import QThread, pyqtSignal
+from pythonosc import udp_client
 from pythonosc.dispatcher import Dispatcher
 from pythonosc.osc_server import BlockingOSCUDPServer
 from pythonosc.udp_client import SimpleUDPClient
@@ -46,10 +46,14 @@ class OscStreamThread(QThread):
         finally:
             logging.info("OSC server stopped")
 
-    def send_message(self, address: str, args: list):
+    def send_message(self, address: str, data: dict, port=9000):
         if self.client:
-            logging.info(f"Sending message to {address}: {args}")
-            self.client.send_message(address, args)
+            self.client = udp_client.SimpleUDPClient(address, port)
+            # Send another OSC message with multiple values
+            for band_name, values in data.items():
+                float_values = [float(val) for val in values]
+                logging.info(f"Sending {band_name} to {address}: {float_values}")
+                self.client.send_message(f"/{band_name}", float_values)
 
     def stop(self):
         self._running = False

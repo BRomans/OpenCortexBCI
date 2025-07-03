@@ -6,7 +6,6 @@ Author: Michele Romani
 Email: michele.romani.zaltieri@gmail.com
 Copyright 2024 Michele Romani
 """
-
 import threading
 import time
 import numpy as np
@@ -29,7 +28,6 @@ from pyqtgraph import ScatterPlotItem, mkBrush
 from brainflow.board_shim import BoardShim
 from brainflow.data_filter import DataFilter, FilterTypes, DetrendOperations
 from concurrent.futures import ThreadPoolExecutor
-
 from opencortex.neuroengine.network.osc_stream import OscStreamThread
 from opencortex.utils.layouts import layouts
 
@@ -1292,8 +1290,12 @@ class StreamerGUI:
             push_lsl_quality(self.quality_outlet, quality_scores)
             push_lsl_raw_eeg(self.eeg_outlet, self.filtered_eeg, start_eeg, end_eeg, self.chunk_counter, ts,
                              self.lsl_chunk_checkbox.isChecked())
-            # Send a test message
-            if self.osc_thread: self.osc_thread.send_message(self.osc_address_input.text(), band_powers)
+
+            if self.osc_thread:
+                address = str(self.osc_address_input.text())
+                port = int(self.osc_port_output.text())
+                logging.info(f"{address}, {port}")
+                self.osc_thread.send_message(address, band_powers, port )
         except Exception as e:
             logging.error(f"Error pushing data to LSL: {e}")
         self.app.processEvents()
