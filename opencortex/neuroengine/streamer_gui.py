@@ -1294,7 +1294,6 @@ class StreamerGUI:
             if self.osc_thread:
                 address = str(self.osc_address_input.text())
                 port = int(self.osc_port_output.text())
-                logging.info(f"{address}, {port}")
                 self.osc_thread.send_message(address, band_powers, port )
         except Exception as e:
             logging.error(f"Error pushing data to LSL: {e}")

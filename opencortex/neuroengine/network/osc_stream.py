@@ -1,4 +1,5 @@
 import logging
+import numpy
 from PyQt5.QtCore import QThread, pyqtSignal
 from pythonosc import udp_client
 from pythonosc.dispatcher import Dispatcher
@@ -51,7 +52,7 @@ class OscStreamThread(QThread):
             self.client = udp_client.SimpleUDPClient(address, port)
             # Send another OSC message with multiple values
             for band_name, values in data.items():
-                float_values = [float(val) for val in values] if isinstance(values, list) else [float(values)]
+                float_values = [float(val) for val in values] if isinstance(values, numpy.ndarray) else [float(values)]
                 logging.info(f"Sending {band_name} to {address}: {float_values}")
                 self.client.send_message(f"/{band_name}", float_values)
 
