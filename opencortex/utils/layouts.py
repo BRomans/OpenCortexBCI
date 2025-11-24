@@ -32,8 +32,8 @@ layouts = {
         "eeg_end": 5
     },
     BoardIds.NEUROPAWN_KNIGHT_BOARD.value: {
-        "channels": ["CPz", "P1", "Pz", "P2", "PO3", "POz", "PO4", "Oz", "A1", "A2"],
-        "header": ["Sample", "CPz", "P1", "Pz", "P2", "PO3", "POz", "PO4", "Oz", "A1", "A2", "Time", "Trigger"],
+        "channels": ["Ch1", "Ch2", "Ch3", "Ch4", "Ch5", "Ch6", "Ch7", "Ch8"],
+        "header": ["Sample", "Ch1", "Ch2", "Ch3", "Ch4", "Ch5", "Ch6", "Ch7", "Ch8", "Time", "Trigger"],
         "eeg_start": 1,
         "eeg_end": 9
     },

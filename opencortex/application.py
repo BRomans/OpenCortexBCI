@@ -5,6 +5,9 @@ import yaml
 from sys import platform
 from PyQt5 import QtWidgets
 from brainflow.board_shim import BoardShim, BrainFlowInputParams, BoardIds
+from serial import SerialException
+
+from opencortex.neuroengine.devices.knight import KnightBoard
 from opencortex.neuroengine.gui.gui_adapter import GUIAdapter
 from opencortex.neuroengine.setup_dialog import SetupDialog, retrieve_board_id, retrieve_eeg_devices
 from opencortex.neuroengine.streamer_gui import StreamerGUI
@@ -215,7 +218,11 @@ def run_gui():
                     params.serial_port = com_port
                     board_shim = BoardShim(args.board_id, params)
                     board_shim.prepare_session()
-                    board_shim.start_stream(streamer_params=args.streamer_params)
+                    if args.board_id == BoardIds.NEUROPAWN_KNIGHT_BOARD:
+                        knight_board = KnightBoard(board_shim, num_channels=8)
+                        knight_board.start_stream(streamer_params=args.streamer_params)
+                    else:
+                        board_shim.start_stream(streamer_params=args.streamer_params)
                     logging.info(f"Connected to {com_port}")
                     break
                 except BaseException:

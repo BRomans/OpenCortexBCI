@@ -63,15 +63,13 @@ class CortexEngine:
         try:
             self.eeg_names = BoardShim.get_eeg_names(self.board_id)
         except Exception as e:
-            logging.warning("Could not get EEG channels, using default 8 channels, caused by: {}".format(e))
-            self.eeg_names = ["CPz", "P1", "Pz", "P2", "PO3", "POz", "PO4", "Oz"]
+            logging.warning("Could not get EEG channels, using default names, caused by: {}".format(e))
+            if self.board_id in layouts:
+                self.eeg_names = layouts[self.board_id]['channels']
+            else:  # else if NeuroPawn (?)
+                self.eeg_names = [f"Ch{i + 1}" for i in range(len(self.eeg_channels))]
         self.sampling_rate = BoardShim.get_sampling_rate(self.board_id)
         self.num_points = self.window_size * self.sampling_rate
-        try:
-            self.eeg_names = BoardShim.get_eeg_names(self.board_id)
-        except Exception as e:
-            logging.warning("Could not get EEG channels, using default 8 channels, caused by: {}".format(e))
-            self.eeg_names = ["CPz", "P1", "Pz", "P2", "PO3", "POz", "PO4", "Oz"],
 
         # Engine state
         self.running = False
