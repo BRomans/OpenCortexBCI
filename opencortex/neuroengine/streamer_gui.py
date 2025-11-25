@@ -100,8 +100,11 @@ class StreamerGUI:
         try:
             self.eeg_names = BoardShim.get_eeg_names(self.board_id)
         except Exception as e:
-            logging.warning("Could not get EEG channels, using default 8 channels, caused by: {}".format(e))
-            self.eeg_names = ["CPz", "P1", "Pz", "P2", "PO3", "POz", "PO4", "Oz"]
+            logging.warning("Could not get EEG channels, using default names, caused by: {}".format(e))
+            if self.board_id in layouts:
+                self.eeg_names = layouts[self.board_id]['channels']
+            else:
+                self.eeg_names = [f"Ch{i + 1}" for i in range(len(self.eeg_channels))]
 
         logging.info(f"EEG channels: {self.eeg_channels}")
         logging.info(f"EEG names: {self.eeg_names}")

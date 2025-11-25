@@ -255,10 +255,11 @@ def run_gui():
             try:
                 if streamer:
                     streamer.quit()
+                board_shim.stop_stream()
+                board_shim.release_session()
             except BaseException:
                 logging.warning('Streaming has already been stopped')
-            board_shim.stop_stream()
-            board_shim.release_session()
+
 
 
 def run():
